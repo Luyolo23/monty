@@ -1,46 +1,59 @@
 #include "monty.h"
-
-bus_t bus = {NULL, NULL, NULL, 0};
+void empty(void);
+global_t global = {{NULL}, NULL, NULL, NULL};
 /**
-* main - monty code interpreter
-* @argc: number of arguments
-* @argv: monty file location
-* Return: 0 on success
-*/
-int main(int argc, char *argv[])
-{	
-	char *content;
-	FILE *file;
-	size_t size = 0;
-	ssize_t read_line = 1;
-	stack_t *stack = NULL;
-	unsigned int counter = 0;
+ * main - entry point
+ * @argc: argument count
+ * @argv: argument vector
+ * Return: 0
+ */
+int main(int argc, char **argv)
+{
+	char *filename;
+	size_t n = 0;
+	int num_chars = 0;
+	unsigned int line_num = 1;
+	void (*get_fun)(stack_t **, unsigned int);
+	stack_t *ptr;
+	stack_t *temp;
 
+	filename = argv[1];
 	if (argc != 2)
 	{
-		fprintf(stderr, "USAGE: monty file\n");
+		dprintf(2, "USAGE: monty file\n");
 		exit(EXIT_FAILURE);
 	}
-	file = fopen(argv[1], "r");
-	bus.file = file;
-	if (!file)
+	global.fptr = fopen(filename, "r");
+	if (global.fptr == NULL)
 	{
-		fprintf(stderr, "Error: Can't open file %s\n", argv[1]);
+		dprintf(2, "Error: Can't open file %s\n", filename);
 		exit(EXIT_FAILURE);
 	}
-	while (read_line > 0)
+	while ((num_chars = getline(&global.line, &n, global.fptr) != -1))
 	{
-		content = NULL;
-		read_line = getline(&content, &size, file);
-		bus.content = content;
-		counter++;
-		if (read_line > 0)
+		parse_line(global.line);
+		if (global.line_cpy[0] == NULL || global.line_cpy[0][0] == '#')
 		{
-			execute(content, &stack, counter, file);
+			line_num++;
+			continue;
 		}
-		free(content);
+		get_fun = op_fun(global.line_cpy[0]);
+		if (get_fun == NULL)
+		{
+			dprintf(2, "L%u: unknown instruction %s\n", line_num, global.line_cpy[0]);
+			exit_status();
+		}
+		get_fun(&global.stack, line_num);
+		line_num++;
 	}
-	free_stack(stack);
-	fclose(file);
-return (0);
+	ptr = global.stack;
+	while (ptr != NULL)
+	{
+		temp = ptr->next;
+		free(ptr);
+		ptr = temp;
+	}
+	free(global.line);
+	fclose(global.fptr);
+	return (0);
 }

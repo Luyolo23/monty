@@ -1,34 +1,46 @@
 #include "monty.h"
 
-glob_t glob;
-
+bus_t bus = {NULL, NULL, NULL, 0};
 /**
- * main - entry point for the monty program
- * @argc: number of command line arguments
- * @argv: array of command line argument strings
- *
- * Return: 0 on success, non-zero on failure
- */
+* main - monty code interpreter
+* @argc: number of arguments
+* @argv: monty file location
+* Return: 0 on success
+*/
 int main(int argc, char *argv[])
-{
+{	
+	char *content;
+	FILE *file;
+	size_t size = 0;
+	ssize_t read_line = 1;
 	stack_t *stack = NULL;
+	unsigned int counter = 0;
 
 	if (argc != 2)
 	{
 		fprintf(stderr, "USAGE: monty file\n");
 		exit(EXIT_FAILURE);
 	}
-
-	glob.file = fopen(argv[1], "r");
-	if (glob.file == NULL)
+	file = fopen(argv[1], "r");
+	bus.file = file;
+	if (!file)
 	{
 		fprintf(stderr, "Error: Can't open file %s\n", argv[1]);
 		exit(EXIT_FAILURE);
 	}
-
-	execute_file(&stack);
-	fclose(glob.file);
-	free(glob.line);
+	while (read_line > 0)
+	{
+		content = NULL;
+		read_line = getline(&content, &size, file);
+		bus.content = content;
+		counter++;
+		if (read_line > 0)
+		{
+			execute(content, &stack, counter, file);
+		}
+		free(content);
+	}
 	free_stack(stack);
-	exit(EXIT_SUCCESS);
+	fclose(file);
+return (0);
 }

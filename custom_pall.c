@@ -1,19 +1,21 @@
 #include "monty.h"
-
 /**
- * custom_pall - prints all values on the stack
- * @stack: pointer to the top of the stack
- * @line_number: line number of the opcode
- */
-void custom_pall(stack_t **stack, unsigned int line_number)
+ * custom_pall - prints the stack
+ * @head: stack head
+ * @counter: no used
+ * Return: no return
+*/
+void custom_pall(stack_t **head, unsigned int counter)
 {
-	stack_t *current = *stack;
+	stack_t *h;
+	(void)counter;
 
-	while (current != NULL)
+	h = *head;
+	if (h == NULL)
+		return;
+	while (h)
 	{
-		printf("%d\n", current->n);
-		current = current->next;
-		(void)line_number;
+		printf("%d\n", h->n);
+		h = h->next;
 	}
-
 }

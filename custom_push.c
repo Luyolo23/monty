@@ -1,55 +1,37 @@
 #include "monty.h"
-
 /**
- * op_push - pushes an element onto the stack
- * @stack: pointer to the top of the stack
- * @line_number: current line number of the opcode in the Monty file
- */
-void op_push(stack_t **stack, unsigned int line_number)
+ * custom_push - add node to the stack
+ * @head: stack head
+ * @counter: line_number
+ * Return: no return
+*/
+void custom_push(stack_t **head, unsigned int counter)
 {
-	int n;
+	int n, j = 0, flag = 0;
 
-	if (glob.arg == NULL || !is_number(glob.arg))
+	if (bus.arg)
 	{
-		fprintf(stderr, "L%d: usage: push integer\n", line_number);
-		free_stack(*stack);
-		fclose(glob.file);
-		free(glob.line);
-		exit(EXIT_FAILURE);
-	}
-
-	n = atoi(glob.arg);
-	if (add_node(stack, n) == NULL)
-	{
-		fprintf(stderr, "Error: malloc failed\n");
-		free_stack(*stack);
-		fclose(glob.file);
-		free(glob.line);
-		exit(EXIT_FAILURE);
-	}
-}
-
-/**
- * is_number - checks if a string is a number
- * @str: string to check
- *
- * Return: 1 if string is a number, 0 otherwise
- */
-int is_number(char *str)
-{
-	if (str == NULL || *str == '\0')
-		return (0);
-
-	if (*str == '-' || *str == '+')
-		str++;
-
-	while (*str != '\0')
-	{
-		if (*str < '0' || *str > '9')
-			return (0);
-
-		str++;
-	}
-
-	return (1);
+		if (bus.arg[0] == '-')
+			j++;
+		for (; bus.arg[j] != '\0'; j++)
+		{
+			if (bus.arg[j] > 57 || bus.arg[j] < 48)
+				flag = 1; }
+		if (flag == 1)
+		{ fprintf(stderr, "L%d: usage: push integer\n", counter);
+			fclose(bus.file);
+			free(bus.content);
+			free_stack(*head);
+			exit(EXIT_FAILURE); }}
+	else
+	{ fprintf(stderr, "L%d: usage: push integer\n", counter);
+		fclose(bus.file);
+		free(bus.content);
+		free_stack(*head);
+		exit(EXIT_FAILURE); }
+	n = atoi(bus.arg);
+	if (bus.lifi == 0)
+		addnode(head, n);
+	else
+		addqueue(head, n);
 }

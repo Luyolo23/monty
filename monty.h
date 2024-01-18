@@ -32,40 +32,40 @@ typedef struct stack_s
 typedef struct instruction_s
 {
 	char *opcode;
-	void (*f)(stack_t **stack, unsigned int line_number);
+	void (*f)(stack_t **s, unsigned int line_n);
 } instruction_t;
 /**
  * struct global - global variables
  * @line_cpy: char array
  * @fptr: file ptr
  * @line: char ptr
- * @stack: ptr
+ * @s: ptr
  */
 typedef struct global
 {
 	char *line_cpy[20];
 	FILE *fptr;
 	char *line;
-	stack_t *stack;
+	stack_t *s;
 } global_t;
 extern global_t global;
 
-void (*op_fun(char *s))(stack_t **stack, unsigned int line_number);
-void push(stack_t **stack, unsigned int line_number);
-void pall(stack_t **stack, unsigned int line_number);
-void pint(stack_t **stack, unsigned int line_number);
-void pop(stack_t **stack, unsigned int line_number);
-void swap(stack_t **stack, unsigned int line_number);
-void add(stack_t **stack, unsigned int line_number);
-void nop(stack_t **stack, unsigned int line_number);
-void sub(stack_t **stack, unsigned int line_number);
-void _div(stack_t **stack, unsigned int line_number);
-void mul(stack_t **stack, unsigned int line_number);
-void mod(stack_t **stack, unsigned int line_number);
-void pchar(stack_t **stack, unsigned int line_number);
-void pstr(stack_t **stack, unsigned int line_number);
-void rotl(stack_t **stack, unsigned int line_number);
-void rotr(stack_t **stack, unsigned int line_number);
+void (*op_fun(char *s))(stack_t **s, unsigned int line_n);
+void push(stack_t **s, unsigned int line_n);
+void pall(stack_t **s, unsigned int line_n);
+void pint(stack_t **s, unsigned int line_n);
+void pop(stack_t **s, unsigned int line_n);
+void swap(stack_t **s, unsigned int line_n);
+void add(stack_t **s, unsigned int line_n);
+void nop(stack_t **s, unsigned int line_n);
+void sub(stack_t **s, unsigned int line_n);
+void _div(stack_t **s, unsigned int line_n);
+void mul(stack_t **s, unsigned int line_n);
+void mod(stack_t **s, unsigned int line_n);
+void pchar(stack_t **s, unsigned int line_n);
+void pstr(stack_t **s, unsigned int line_n);
+void rotl(stack_t **s, unsigned int line_n);
+void rotr(stack_t **s, unsigned int line_n);
 void parse_line(char *line);
 void exit_status(void);
 

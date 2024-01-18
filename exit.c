@@ -8,7 +8,7 @@ void exit_status(void)
 	stack_t *ptr;
 	stack_t *temp;
 
-	ptr = global.stack;
+	ptr = global.s;
 	while (ptr != NULL)
 	{
 		temp = ptr->next;
@@ -17,6 +17,6 @@ void exit_status(void)
 	}
 	free(global.line);
 	fclose(global.fptr);
-	global.stack = NULL;
+	global.s = NULL;
 	exit(EXIT_FAILURE);
 }

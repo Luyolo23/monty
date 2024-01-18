@@ -4,7 +4,7 @@
  * @s: char ptr
  * Return: nothing
  */
-void (*op_fun(char *s))(stack_t **stack, unsigned int line_number)
+void (*op_fun(char *s))(stack_t **s, unsigned int line_n)
 {
 	instruction_t op_code[] = {
 		{"push", push},

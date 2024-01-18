@@ -43,10 +43,10 @@ int main(int argc, char **argv)
 			dprintf(2, "L%u: unknown instruction %s\n", line_num, global.line_cpy[0]);
 			exit_status();
 		}
-		get_fun(&global.stack, line_num);
+		get_fun(&global.s, line_num);
 		line_num++;
 	}
-	ptr = global.stack;
+	ptr = global.s;
 	while (ptr != NULL)
 	{
 		temp = ptr->next;

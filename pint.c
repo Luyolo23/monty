@@ -1,16 +1,16 @@
 #include "monty.h"
 /**
  * pint - prints the value at the top of the stack
- * @stack: pointer to pointer
- * @line_number: unsigned int
+ * @s: pointer to pointer
+ * @line_n: unsigned int
  * Return: nothing
  */
-void pint(stack_t **stack, unsigned int line_number)
+void pint(stack_t **s, unsigned int line_n)
 {
-	if (*stack == NULL)
+	if (*s == NULL)
 	{
-		dprintf(2, "L%u: can't pint, stack empty\n", line_number);
+		dprintf(2, "L%u: can't pint, stack empty\n", line_n);
 		exit(EXIT_FAILURE);
 	}
-	printf("%d\n", (*stack)->n);
+	printf("%d\n", (*s)->n);
 }

@@ -1,11 +1,11 @@
 #include "monty.h"
 /**
  * push - adds an element into the stack or queue
- * @stack: pointer to pointer
- * @line_number: unsigned int
+ * @s: pointer to pointer
+ * @line_n: unsigned int
  * Return: nothing
  */
-void push(stack_t **stack, unsigned int line_number)
+void push(stack_t **s, unsigned int line_n)
 {
 	stack_t *temp;
 	int cnt = 0;
@@ -19,7 +19,7 @@ void push(stack_t **stack, unsigned int line_number)
 	if (global.line_cpy[1] == NULL)
 	{
 		free(temp);
-		dprintf(2, "L%u: usage: push integer\n", line_number);
+		dprintf(2, "L%u: usage: push integer\n", line_n);
 		exit_status();
 	}
 	if (global.line_cpy[1][0] == '-')
@@ -31,17 +31,17 @@ void push(stack_t **stack, unsigned int line_number)
 		if (!isdigit(global.line_cpy[1][cnt]))
 		{
 			free(temp);
-			dprintf(2, "L%u: usage: push integer\n", line_number);
+			dprintf(2, "L%u: usage: push integer\n", line_n);
 			exit_status();
 		}
 		cnt++;
 	}
 	temp->n = atoi(global.line_cpy[1]);
 	temp->prev = NULL;
-	temp->next = *stack;
-	if (*stack != NULL)
+	temp->next = *s;
+	if (*s != NULL)
 	{
-		(*stack)->prev = temp;
+		(*s)->prev = temp;
 	}
-	*stack = temp;
+	*s = temp;
 }
